@@ -1,15 +1,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
     <loc>https://hhhh/about</loc>
-    <lastmod>2026-04-10T15:06:57.239Z</lastmod>
-  </url><url>
-    <loc>https://hhhh/notes-to-selves</loc>
-    <lastmod>2026-04-10T16:22:03.383Z</lastmod>
-  </url><url>
-    <loc>https://hhhh/thoughts-on-documentation</loc>
-    <lastmod>2026-04-10T16:21:19.220Z</lastmod>
-  </url><url>
-    <loc>https://hhhh/</loc>
-    <lastmod>2026-04-10T15:26:33.058Z</lastmod>
+    <lastmod>2026-04-11T06:46:17.469Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/automatic-software</loc>
     <lastmod>2026-04-10T14:05:11.889Z</lastmod>
@@ -21,7 +12,7 @@
     <lastmod>2026-04-10T01:46:55.744Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</loc>
-    <lastmod>2026-04-10T15:17:30.469Z</lastmod>
+    <lastmod>2026-04-11T06:42:01.586Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/dscs</loc>
     <lastmod>2026-04-10T03:01:43.338Z</lastmod>
@@ -69,11 +60,20 @@
     <lastmod>2026-04-10T01:52:21.626Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/x-bed</loc>
-    <lastmod>2026-04-10T15:21:10.431Z</lastmod>
+    <lastmod>2026-04-11T06:42:25.860Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/yarn-error</loc>
     <lastmod>2026-04-10T15:25:26.533Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/i-dscs</loc>
     <lastmod>2026-04-10T15:23:08.587Z</lastmod>
+  </url><url>
+    <loc>https://hhhh/notes-to-selves</loc>
+    <lastmod>2026-04-10T16:22:03.383Z</lastmod>
+  </url><url>
+    <loc>https://hhhh/thoughts-on-documentation</loc>
+    <lastmod>2026-04-11T06:19:21.313Z</lastmod>
+  </url><url>
+    <loc>https://hhhh/</loc>
+    <lastmod>2026-04-10T15:26:33.058Z</lastmod>
   </url></urlset>

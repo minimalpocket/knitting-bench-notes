@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>Plecholder</title>
+      <link>https://hhhh</link>
+      <description>Last 10 notes on Plecholder</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>Notes to Selves</title>
+    <link>https://hhhh/notes-to-selves</link>
+    <guid>https://hhhh/notes-to-selves</guid>
+    <description><![CDATA[ Formatting Title case for page titles. Sentence case for all other headings. No empty line between heading and body text. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 16:22:03 GMT</pubDate>
+  </item><item>
+    <title>Thoughts on Documentation</title>
+    <link>https://hhhh/thoughts-on-documentation</link>
+    <guid>https://hhhh/thoughts-on-documentation</guid>
+    <description><![CDATA[ The medium matters Fired clay tablets Clay tablet - Wikipedia xkcd xkcd: Digital Resource Lifespan xkcd: File Extensions Being detailed matters How to communicate to an unknown human culture? Waste Isolation Pilot Plant (WIPP) Permanent Markers Long-term nuclear waste warning messages - Wikipedia Th... ]]></description>
+    <pubDate>Fri, 10 Apr 2026 16:21:19 GMT</pubDate>
+  </item><item>
+    <title>Home</title>
+    <link>https://hhhh/</link>
+    <guid>https://hhhh/</guid>
+    <description><![CDATA[ Hello world! :) This is a collection of knitting and textile notes that might be useful to other people. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:26:33 GMT</pubDate>
+  </item><item>
+    <title>Yarn Error</title>
+    <link>https://hhhh/mach2x/yarn-error</link>
+    <guid>https://hhhh/mach2x/yarn-error</guid>
+    <description><![CDATA[ YARN ERR is a threshold setting on the YARN MEASUREMENT screen. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:25:26 GMT</pubDate>
+  </item><item>
+    <title>Stitch Adjustment Data</title>
+    <link>https://hhhh/mach2x/stitch-adjustment-data</link>
+    <guid>https://hhhh/mach2x/stitch-adjustment-data</guid>
+    <description><![CDATA[ MACH2X DSCS Instruction Manual DSCS = Digital Stitch Control System. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:24:41 GMT</pubDate>
+  </item><item>
+    <title>Starting and Ending</title>
+    <link>https://hhhh/mach2x/starting-and-ending</link>
+    <guid>https://hhhh/mach2x/starting-and-ending</guid>
+    <description><![CDATA[ Starting Since the MACH2X is usually used for seamless Wholegarment knitting, you may want to create a setup knitting structure (after the fixed data) that will not unravel even after the draw thread is removed. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:24:31 GMT</pubDate>
+  </item><item>
+    <title>SSD</title>
+    <link>https://hhhh/mach2x/ssd</link>
+    <guid>https://hhhh/mach2x/ssd</guid>
+    <description><![CDATA[ Suggested files to store on the SSD: .999 files for Knitting Adjust settings for different fabric widths/etc. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:24:03 GMT</pubDate>
+  </item><item>
+    <title>i-DSCS</title>
+    <link>https://hhhh/mach2x/i-dscs</link>
+    <guid>https://hhhh/mach2x/i-dscs</guid>
+    <description><![CDATA[ The i-DSCS and DSCS use the same option line settings for L9. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:23:08 GMT</pubDate>
+  </item><item>
+    <title>Front Body Back Body</title>
+    <link>https://hhhh/mach2x/front-body-back-body</link>
+    <guid>https://hhhh/mach2x/front-body-back-body</guid>
+    <description><![CDATA[ If you want more freedom to specify different knit structures on the front face and back face of the fabric, you can create 3 compressed patterns. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:22:36 GMT</pubDate>
+  </item><item>
+    <title>X-Bed</title>
+    <link>https://hhhh/mach2x/x-bed</link>
+    <guid>https://hhhh/mach2x/x-bed</guid>
+    <description><![CDATA[ “X-bed” refers to a four needle bed flat knitting machine configuration. ”V-bed” refers to a two needle bed configuration. ]]></description>
+    <pubDate>Fri, 10 Apr 2026 15:21:10 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>

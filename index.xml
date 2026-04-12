@@ -6,11 +6,29 @@
       <description>Last 10 notes on Knitting Bench Notes</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Home</title>
+    <link>https://hhhh/</link>
+    <guid>https://hhhh/</guid>
+    <description><![CDATA[ Hello world! :) This is a collection of knitting and textile notes that might be useful to other people. ]]></description>
+    <pubDate>Sun, 12 Apr 2026 15:24:44 GMT</pubDate>
+  </item><item>
+    <title>i-DSCS</title>
+    <link>https://hhhh/mach2x/i-dscs</link>
+    <guid>https://hhhh/mach2x/i-dscs</guid>
+    <description><![CDATA[ The i-DSCS and DSCS use the same option line settings for L9. ]]></description>
+    <pubDate>Sun, 12 Apr 2026 14:14:13 GMT</pubDate>
+  </item><item>
     <title>MACH2X for Shima Seiki Shaping Machine Users</title>
-    <link>https://hhhh/mach2x/mach2x-for-shima-seiki-shaping-machine-users</link>
-    <guid>https://hhhh/mach2x/mach2x-for-shima-seiki-shaping-machine-users</guid>
+    <link>https://hhhh/mach2x/</link>
+    <guid>https://hhhh/mach2x/</guid>
     <description><![CDATA[ These are (informal) notes about the Shima Seiki MACH2X knitting machine. ]]></description>
-    <pubDate>Sat, 11 Apr 2026 09:41:06 GMT</pubDate>
+    <pubDate>Sun, 12 Apr 2026 09:51:01 GMT</pubDate>
+  </item><item>
+    <title>styling test</title>
+    <link>https://hhhh/styling-test</link>
+    <guid>https://hhhh/styling-test</guid>
+    <description><![CDATA[ Heading 1 Heading 2 Heading 3 Heading 4 Heading 5 Heading 6 Todo not yet finished [-] unsure bold italic bold-italic code highlight misplled wrods From Japanese help files {目移し|め|うつ|}{時|じ}、{指定|してい}されたニードルを{引|ひ}くことにより、ループの{浮|う}きを{防|ふせ}ぎ{安定|あん|てい}させます ”When transferring stitches, by pulling specified ... ]]></description>
+    <pubDate>Sun, 12 Apr 2026 08:13:27 GMT</pubDate>
   </item><item>
     <title>Comb</title>
     <link>https://hhhh/mach2x/comb</link>
@@ -47,24 +65,6 @@
     <guid>https://hhhh/notes-to-selves</guid>
     <description><![CDATA[ Formatting Title case for page titles. Sentence case for all other headings. No empty line between heading and body text. ]]></description>
     <pubDate>Fri, 10 Apr 2026 16:22:03 GMT</pubDate>
-  </item><item>
-    <title>Home</title>
-    <link>https://hhhh/</link>
-    <guid>https://hhhh/</guid>
-    <description><![CDATA[ Hello world! :) This is a collection of knitting and textile notes that might be useful to other people. ]]></description>
-    <pubDate>Fri, 10 Apr 2026 15:26:33 GMT</pubDate>
-  </item><item>
-    <title>Yarn Error</title>
-    <link>https://hhhh/mach2x/yarn-error</link>
-    <guid>https://hhhh/mach2x/yarn-error</guid>
-    <description><![CDATA[ YARN ERR is a threshold setting on the YARN MEASUREMENT screen. ]]></description>
-    <pubDate>Fri, 10 Apr 2026 15:25:26 GMT</pubDate>
-  </item><item>
-    <title>Stitch Adjustment Data</title>
-    <link>https://hhhh/mach2x/stitch-adjustment-data</link>
-    <guid>https://hhhh/mach2x/stitch-adjustment-data</guid>
-    <description><![CDATA[ MACH2X DSCS Instruction Manual DSCS = Digital Stitch Control System. ]]></description>
-    <pubDate>Fri, 10 Apr 2026 15:24:41 GMT</pubDate>
   </item>
     </channel>
   </rss>

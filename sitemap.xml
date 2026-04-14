@@ -1,6 +1,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
     <loc>https://hhhh/about</loc>
-    <lastmod>2026-04-11T06:46:17.469Z</lastmod>
+    <lastmod>2026-04-14T04:19:27.389Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/automatic-software</loc>
     <lastmod>2026-04-10T14:05:11.889Z</lastmod>
@@ -21,10 +21,7 @@
     <lastmod>2026-04-10T01:59:31.381Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/front-body-back-body</loc>
-    <lastmod>2026-04-10T15:22:36.451Z</lastmod>
-  </url><url>
-    <loc>https://hhhh/mach2x/important-option-lines</loc>
-    <lastmod>2026-04-13T06:58:49.574Z</lastmod>
+    <lastmod>2026-04-14T04:19:12.614Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/loop-length-group</loc>
     <lastmod>2026-04-10T03:02:26.455Z</lastmod>
@@ -35,6 +32,9 @@
     <loc>https://hhhh/mach2x/needle</loc>
     <lastmod>2026-04-10T02:25:43.529Z</lastmod>
   </url><url>
+    <loc>https://hhhh/mach2x/option-lines</loc>
+    <lastmod>2026-04-14T01:19:39.113Z</lastmod>
+  </url><url>
     <loc>https://hhhh/mach2x/package-pattern-gather-up</loc>
     <lastmod>2026-04-10T05:05:52.799Z</lastmod>
   </url><url>
@@ -42,7 +42,7 @@
     <lastmod>2026-04-09T06:22:37.619Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/pulldown-device</loc>
-    <lastmod>2026-04-10T05:13:23.690Z</lastmod>
+    <lastmod>2026-04-14T03:36:31.956Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/ssd</loc>
     <lastmod>2026-04-10T15:24:03.572Z</lastmod>
@@ -69,7 +69,7 @@
     <lastmod>2026-04-12T14:14:13.101Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/</loc>
-    <lastmod>2026-04-13T06:59:05.103Z</lastmod>
+    <lastmod>2026-04-14T01:17:47.911Z</lastmod>
   </url><url>
     <loc>https://hhhh/notes-to-selves</loc>
     <lastmod>2026-04-10T16:22:03.383Z</lastmod>
@@ -81,5 +81,5 @@
     <lastmod>2026-04-12T15:24:44.775Z</lastmod>
   </url><url>
     <loc>https://hhhh/styling-test</loc>
-    <lastmod>2026-04-12T08:13:27.195Z</lastmod>
+    <lastmod>2026-04-14T03:30:32.614Z</lastmod>
   </url></urlset>

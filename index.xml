@@ -6,17 +6,41 @@
       <description>Last 10 notes on Knitting Bench Notes</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>About</title>
+    <link>https://hhhh/about</link>
+    <guid>https://hhhh/about</guid>
+    <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
+    <pubDate>Tue, 14 Apr 2026 04:19:27 GMT</pubDate>
+  </item><item>
+    <title>Front Body Back Body</title>
+    <link>https://hhhh/mach2x/front-body-back-body</link>
+    <guid>https://hhhh/mach2x/front-body-back-body</guid>
+    <description><![CDATA[ If you want more freedom to specify different knit structures on the front face and back face of the fabric, you can create 3 compressed patterns. ]]></description>
+    <pubDate>Tue, 14 Apr 2026 04:19:12 GMT</pubDate>
+  </item><item>
+    <title>Pulldown Device</title>
+    <link>https://hhhh/mach2x/pulldown-device</link>
+    <guid>https://hhhh/mach2x/pulldown-device</guid>
+    <description><![CDATA[ The pulldown device (PDD) is a claw-like device that pulls on the knitted fabric to provide takedown force. ]]></description>
+    <pubDate>Tue, 14 Apr 2026 03:36:31 GMT</pubDate>
+  </item><item>
+    <title>styling test</title>
+    <link>https://hhhh/styling-test</link>
+    <guid>https://hhhh/styling-test</guid>
+    <description><![CDATA[ Heading 1 Heading 2 Heading 3 Heading 4 Heading 5 Heading 6 bold italic bold-italic code highlight misplled wrods {振り仮名|fu|ri|ga|na} regular lists and increasingly nested ones also 1) numbered 2) lists blockquotes can be nested too wow awk &#039;BEGIN{s=1}{c+=length+1;if(c-p&gt;=15500){print s,NR;p=... ]]></description>
+    <pubDate>Tue, 14 Apr 2026 03:30:32 GMT</pubDate>
+  </item><item>
+    <title>Option Lines</title>
+    <link>https://hhhh/mach2x/option-lines</link>
+    <guid>https://hhhh/mach2x/option-lines</guid>
+    <description><![CDATA[ These option lines are particularly important. ]]></description>
+    <pubDate>Tue, 14 Apr 2026 01:19:39 GMT</pubDate>
+  </item><item>
     <title>MACH2X for Shima Seiki Shaping Machine Users</title>
     <link>https://hhhh/mach2x/</link>
     <guid>https://hhhh/mach2x/</guid>
     <description><![CDATA[ These are (informal) notes about the Shima Seiki MACH2X knitting machine. ]]></description>
-    <pubDate>Mon, 13 Apr 2026 06:59:05 GMT</pubDate>
-  </item><item>
-    <title>Important Option Lines</title>
-    <link>https://hhhh/mach2x/important-option-lines</link>
-    <guid>https://hhhh/mach2x/important-option-lines</guid>
-    <description><![CDATA[ These option lines are particularly important: L5: Speed (knitting) L6: Speed (transfer) L7: Yarn adjustment, carriage adjustment, pause L9: DSCS on/off/ignore. ]]></description>
-    <pubDate>Mon, 13 Apr 2026 06:58:49 GMT</pubDate>
+    <pubDate>Tue, 14 Apr 2026 01:17:47 GMT</pubDate>
   </item><item>
     <title>X-Bed</title>
     <link>https://hhhh/mach2x/x-bed</link>
@@ -36,35 +60,11 @@
     <description><![CDATA[ The i-DSCS and DSCS use the same option line settings for L9. ]]></description>
     <pubDate>Sun, 12 Apr 2026 14:14:13 GMT</pubDate>
   </item><item>
-    <title>styling test</title>
-    <link>https://hhhh/styling-test</link>
-    <guid>https://hhhh/styling-test</guid>
-    <description><![CDATA[ Heading 1 Heading 2 Heading 3 Heading 4 Heading 5 Heading 6 Todo not yet finished [-] unsure bold italic bold-italic code highlight misplled wrods From Japanese help files {目移し|め|うつ|}{時|じ}、{指定|してい}されたニードルを{引|ひ}くことにより、ループの{浮|う}きを{防|ふせ}ぎ{安定|あん|てい}させます ”When transferring stitches, by pulling specified ... ]]></description>
-    <pubDate>Sun, 12 Apr 2026 08:13:27 GMT</pubDate>
-  </item><item>
     <title>Comb</title>
     <link>https://hhhh/mach2x/comb</link>
     <guid>https://hhhh/mach2x/comb</guid>
     <description><![CDATA[ The comb force is specified in kg. The comb force is scaled to the width of the knitted fabric. ]]></description>
     <pubDate>Sat, 11 Apr 2026 09:15:09 GMT</pubDate>
-  </item><item>
-    <title>About</title>
-    <link>https://hhhh/about</link>
-    <guid>https://hhhh/about</guid>
-    <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
-    <pubDate>Sat, 11 Apr 2026 06:46:17 GMT</pubDate>
-  </item><item>
-    <title>Comparison Between MACH2X and Other Shima Seiki Machines</title>
-    <link>https://hhhh/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</link>
-    <guid>https://hhhh/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</guid>
-    <description><![CDATA[ Note that all these claims are based on my fairly limited experience with Shima Seiki knitting machines. ]]></description>
-    <pubDate>Sat, 11 Apr 2026 06:42:01 GMT</pubDate>
-  </item><item>
-    <title>Thoughts on Documentation</title>
-    <link>https://hhhh/thoughts-on-documentation</link>
-    <guid>https://hhhh/thoughts-on-documentation</guid>
-    <description><![CDATA[ The medium matters Fired clay tablets. Clay tablet - Wikipedia xkcd. ]]></description>
-    <pubDate>Sat, 11 Apr 2026 06:19:21 GMT</pubDate>
   </item>
     </channel>
   </rss>

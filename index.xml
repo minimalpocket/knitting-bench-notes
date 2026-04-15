@@ -6,6 +6,18 @@
       <description>Last 10 notes on Knitting Bench Notes</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Comb</title>
+    <link>https://hhhh/mach2x/comb</link>
+    <guid>https://hhhh/mach2x/comb</guid>
+    <description><![CDATA[ The comb force is specified in kg. The comb force is scaled to the width of the knitted fabric. ]]></description>
+    <pubDate>Wed, 15 Apr 2026 02:05:39 GMT</pubDate>
+  </item><item>
+    <title>Pulldown Device</title>
+    <link>https://hhhh/mach2x/pulldown-device</link>
+    <guid>https://hhhh/mach2x/pulldown-device</guid>
+    <description><![CDATA[ The pulldown device (PDD) is a claw-like device that pulls on the knitted fabric to provide takedown force. ]]></description>
+    <pubDate>Wed, 15 Apr 2026 01:58:52 GMT</pubDate>
+  </item><item>
     <title>Front Body Back Body</title>
     <link>https://hhhh/mach2x/front-body-back-body</link>
     <guid>https://hhhh/mach2x/front-body-back-body</guid>
@@ -17,12 +29,6 @@
     <guid>https://hhhh/about</guid>
     <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
     <pubDate>Tue, 14 Apr 2026 04:19:27 GMT</pubDate>
-  </item><item>
-    <title>Pulldown Device</title>
-    <link>https://hhhh/mach2x/pulldown-device</link>
-    <guid>https://hhhh/mach2x/pulldown-device</guid>
-    <description><![CDATA[ The pulldown device (PDD) is a claw-like device that pulls on the knitted fabric to provide takedown force. ]]></description>
-    <pubDate>Tue, 14 Apr 2026 03:36:31 GMT</pubDate>
   </item><item>
     <title>styling test</title>
     <link>https://hhhh/styling-test</link>
@@ -59,12 +65,6 @@
     <guid>https://hhhh/mach2x/i-dscs</guid>
     <description><![CDATA[ The i-DSCS and DSCS use the same option line settings for L9. ]]></description>
     <pubDate>Sun, 12 Apr 2026 14:14:13 GMT</pubDate>
-  </item><item>
-    <title>Comb</title>
-    <link>https://hhhh/mach2x/comb</link>
-    <guid>https://hhhh/mach2x/comb</guid>
-    <description><![CDATA[ The comb force is specified in kg. The comb force is scaled to the width of the knitted fabric. ]]></description>
-    <pubDate>Sat, 11 Apr 2026 09:15:09 GMT</pubDate>
   </item>
     </channel>
   </rss>

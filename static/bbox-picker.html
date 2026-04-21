@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BBox Picker</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a1a1a;
+      color: #eee;
+      font-family: system-ui, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    #viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+    #viewport.empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px dashed #555;
+      margin: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    #viewport.empty::after {
+      content: 'Drop image file here (or click)';
+      font-size: 24px;
+      color: #666;
+    }
+    #image-container {
+      position: absolute;
+      top: 0; left: 0;
+      transform-origin: 0 0;
+    }
+    #image-container.animating {
+      transition: transform 0.2s cubic-bezier(.19,1,.22,1); /* exponential ease-out */
+
+    }
+    #img {
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    #img.pixelated {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    #selection {
+      position: absolute;
+      border: 2px solid #0af;
+      background: rgba(0, 170, 255, 0.15);
+      pointer-events: none;
+      display: none;
+    }
+
+    /* ---- Info bar ---- */
+    #info-bar {
+      height: 48px;
+      background: #252525;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 16px;
+      font-size: 13px;
+      border-top: 1px solid #333;
+      flex-shrink: 0;
+    }
+    #filename {
+      color: #888;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+    #dims {
+      color: #666;
+      white-space: nowrap;
+    }
+    #coords {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 17px;
+      color: #0af;
+      text-align: center;
+      flex: 1;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    #hover-info {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      min-width: 8.5em;
+      height: 2.4em;
+      transition: opacity 0.1s;
+    }
+    #iro-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #ccc;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: background-color 0.05s, color 0.05s;
+    }
+    #iro-text {
+      width: 3ch;
+      text-align: right;
+    }
+    #iro-swatch {
+      display: none;
+      width: 0.9em;
+      height: 0.9em;
+      border-radius: 0.15em;
+      border: 1px solid #555;
+      flex-shrink: 0;
+    }
+    #iro-xy {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.35;
+      font-size: 0.8em;
+      color: #777;
+    }
+    #help-btn {
+      background: none;
+      border: 1px solid #555;
+      color: #888;
+      font-size: 13px;
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+    #help-btn:hover { border-color: #999; color: #ccc; }
+    #help-panel {
+      display: none;
+      position: absolute;
+      bottom: 52px;
+      right: 8px;
+      background: #333;
+      border: 1px solid #555;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.8;
+      z-index: 100;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    #help-panel.visible { display: block; }
+    #help-panel kbd {
+      background: #444;
+      border: 1px solid #666;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 12px;
+      color: #ccc;
+    }
+    #help-panel .sep {
+      border-top: 1px solid #444;
+      margin: 4px 0;
+    }
+
+    .copied { animation: flash 0.3s; }
+    @keyframes flash { 0% { color: #0f0; } 100% { color: #0af; } }
+    #file-input { display: none; }
+  </style>
+</head>
+<body>
+  <div id="viewport" class="empty">
+    <div id="image-container">
+      <img id="img">
+      <div id="selection"></div>
+    </div>
+  </div>
+  <div id="info-bar">
+    <span id="filename"></span>
+    <span id="dims">No image loaded</span>
+    <span id="coords">—</span>
+    <span id="hover-info"><span id="iro-label"><span id="iro-swatch"></span><span id="iro-text"></span></span><span id="iro-xy"><span id="iro-x"></span><span id="iro-y"></span></span></span>
+    <button id="help-btn">?</button>
+  </div>
+  <div id="help-panel">
+    <kbd>Click</kbd> start / finish selection<br>
+    <kbd>Esc</kbd> clear selection<br>
+    <div class="sep"></div>
+    <kbd>F</kbd> <kbd>0</kbd> fit to viewport<br>
+    <kbd>1</kbd> actual pixels (1:1)<br>
+    <kbd>Z</kbd> zoom to selection<br>
+    <div class="sep"></div>
+    Pinch or <kbd>Ctrl</kbd>+scroll to zoom<br>
+    Two-finger scroll to pan<br>
+    <div class="sep"></div>
+    Drop <code>.dat</code> or image to load
+  </div>
+  <input type="file" id="file-input" accept="image/*,.dat">
+
+  <script>
+    // =========================================================================
+    // KnitPaint palette (256 packed RGB values)
+    // =========================================================================
+    const STD_PALETTE = [
+      0x000000, 0xff0000, 0x00ff00, 0xffff00, 0x0000ff, 0xff00ff, 0x00ffff, 0xffffff,
+      0x4a8999, 0x6c2490, 0xb4b4d8, 0xff67bd, 0x906cb4, 0x999999, 0xcf90c0, 0x8080ff,
+      0x51ffde, 0x5291db, 0x007c91, 0xebeb24, 0xb276b2, 0xfcb46c, 0xfc9463, 0xfc6c48,
+      0xfcd8fc, 0xfcb4fc, 0xd890fc, 0x64c8c8, 0xa06600, 0xebaceb, 0x7373b2, 0x90d848,
+      0x73b273, 0x9d7f01, 0xebebac, 0xd8d848, 0xb4b46c, 0xff00a0, 0xd7c3e1, 0xacaceb,
+      0x7f007f, 0xd84890, 0x906cd8, 0xd8d8fc, 0xd8b4d8, 0xcaa7e1, 0xbc9a46, 0xae8df5,
+      0x9f7fff, 0x8060ff, 0xdc7675, 0xff9090, 0xc0ff90, 0xfcfcb4, 0xfcfc90, 0xd8fc48,
+      0xff90cf, 0x90ffc0, 0xb49090, 0xfdebc7, 0xa0ffff, 0x00ffff, 0x32e9e9, 0x32cae9,
+      0x35afed, 0x00d500, 0xd86cd8, 0xd86cb4, 0xc060b4, 0xa854b4, 0x9966ff, 0xffffff,
+      0x00a0a0, 0xb7bcbc, 0xc5aeb7, 0xe2c5b2, 0xc0ffcf, 0x90cfc0, 0x90d8fc, 0x90b4fc,
+      0x007099, 0x4a8999, 0x6da5b4, 0x90c0cf, 0x0066ff, 0x0099ff, 0x33adff, 0x66c1ff,
+      0x99d6ff, 0x857a03, 0xca2891, 0x78309c, 0x9048b4, 0xb46cd8, 0xff008f, 0x7d8fa5,
+      0xff66bb, 0xff99d2, 0x693f24, 0x7f0000, 0x81640c, 0xfaa3b9, 0xacebac, 0xfcd86c,
+      0xb2b273, 0x7f7f00, 0xb49048, 0xb46c6c, 0xd49595, 0xb4d8d8, 0x906c6c, 0xffbfbf,
+      0xc0cf90, 0xffcf90, 0x73b2b2, 0xc090cf, 0xa9e5e7, 0xd8d8b4, 0xb4d890, 0xbf6a69,
+      0x90d8fc, 0xffddad, 0xb27373, 0xd8b46c, 0x00007f, 0xaa0000, 0x009600, 0xd89d49,
+      0x9065fd, 0xfbfdfe, 0x9d5a6f, 0x81dfa5, 0xacacff, 0x379d7f, 0xbfdfbe, 0xddf37b,
+      0x3f6e11, 0xb9f7ab, 0xd7dbff, 0xefff67, 0xfdfb55, 0xdeffb9, 0x73ab7f, 0xfefb9d,
+      0x8dc7de, 0x2f31fb, 0xffaf7f, 0xfbfa7f, 0xedaffb, 0xfe6a7f, 0xf59d93, 0x0603f0,
+      0xedeafb, 0xeafefe, 0x3d9fbf, 0xad0ceb, 0xfaa75d, 0xfcdeef, 0xfd7dfc, 0xeff5f7,
+      0x8dc7de, 0x66008a, 0x7a6796, 0x7fffff, 0x797fbd, 0x5fbf3a, 0x7187bb, 0x9b7fdf,
+      0xeece3d, 0xfffcf8, 0xff2fcf, 0xa8bfb0, 0xdbbefe, 0x9f6f9e, 0xfffdfd, 0xf5ba5f,
+      0xf35fd9, 0xcdf2f3, 0xfedf93, 0xe02dff, 0x797fbd, 0xc8c8c8, 0x1fb537, 0x735baa,
+      0xe56f81, 0xbf77fd, 0xf6dbbe, 0xf38f7f, 0xde7e7f, 0xe092ff, 0xcc5f91, 0xf0f0f0,
+      0x649d4c, 0x4bff4b, 0xa1ba4b, 0x404040, 0x1aecce, 0xf7f767, 0x67fba9, 0xe06dff,
+      0x6464ff, 0xff647d, 0x3fe3d3, 0xf59664, 0xeff7f7, 0x97c76f, 0x96fff7, 0x14d3b4,
+      0x677fcf, 0xd7afad, 0xeef6e9, 0xb7f5fc, 0xeaf77f, 0xba73cd, 0xbd5aaf, 0x6cb281,
+      0x4e88f7, 0x265f64, 0x2fb7f5, 0x648951, 0x9ffd7d, 0xbfbca4, 0xf3e93f, 0x7f7fdf,
+      0xff7ef7, 0xaa7fcf, 0xbffaf9, 0xe62ffd, 0xebf7df, 0x577c7f, 0xfea54d, 0x0603f0,
+      0xedeafb, 0x4fc75f, 0xef8dfb, 0x6afbff, 0xb7ffdf, 0x62ff4f, 0xcf5bf0, 0xdd79a9,
+      0x6be745, 0x66008a, 0x7a6796, 0xb28dba, 0xf7ecbd, 0x5ab9fc, 0x4cf7b7, 0x9c5909,
+      0x9dbdf2, 0x960000, 0x00af00, 0x009600, 0xc80000, 0x6e0000, 0x646464, 0x007d00,
+    ];
+
+    // =========================================================================
+    // LZSS decompression
+    // =========================================================================
+    const COMPRESSED_SIGNATURE = "SDS LZSS COMPRESS Ver 1.00";
+
+    function isCompressedDat(buffer) {
+      if (buffer.byteLength < 0x44) return false;
+      const header = new TextDecoder().decode(new Uint8Array(buffer, 0, COMPRESSED_SIGNATURE.length));
+      return header === COMPRESSED_SIGNATURE;
+    }
+
+    function decompressLZSS(buffer) {
+      const view = new DataView(buffer);
+      const size = view.getUint32(0x40, true);
+      const src = new Uint8Array(buffer, 0x44);
+      const dst = new Uint8Array(size);
+      const dict = new Uint8Array(4096);
+      let dictPos = 4078;
+      let srcPos = 0, dstPos = 0;
+      while (srcPos < src.length && dstPos < dst.length) {
+        const flags = src[srcPos++];
+        for (let i = 0; i < 8; ++i) {
+          if (flags & (1 << i)) {
+            const b = src[srcPos++];
+            dst[dstPos++] = b;
+            dict[dictPos] = b;
+            dictPos = (dictPos + 1) & 0xFFF;
+          } else {
+            const b0 = src[srcPos++];
+            const b1 = src[srcPos++];
+            const offset = ((b1 & 0xF0) << 4) | b0;
+            const length = (b1 & 0x0F) + 3;
+            for (let j = 0; j < length; ++j) {
+              const b = dict[(offset + j) & 0xFFF];
+              dst[dstPos++] = b;
+              dict[dictPos] = b;
+              dictPos = (dictPos + 1) & 0xFFF;
+            }
+          }
+          if (srcPos >= src.length || dstPos >= dst.length) break;
+        }
+      }
+      if (dstPos !== dst.length) console.warn(`LZSS: decompressed ${dstPos}/${size} bytes`);
+      console.log(`LZSS decompressed: ${buffer.byteLength} → ${dst.length} bytes`);
+      return dst.buffer;
+    }
+
+    // =========================================================================
+    // DAT parser
+    // =========================================================================
+    function parseDat(buffer) {
+      let compressed = false;
+      if (isCompressedDat(buffer)) {
+        buffer = decompressLZSS(buffer);
+        compressed = true;
+      }
+      if (buffer.byteLength < 0x600) {
+        throw new Error(`File too small (${buffer.byteLength} bytes). Expected at least 0x600.`);
+      }
+      const view = new DataView(buffer);
+      const xmin = view.getUint16(0, true);
+      const ymin = view.getUint16(2, true);
+      const xmax = view.getUint16(4, true);
+      const ymax = view.getUint16(6, true);
+      const width = xmax - xmin + 1;
+      const height = ymax - ymin + 1;
+      if (width < 1 || height < 1 || width > 0xfffe || height > 0xfffe) {
+        throw new Error(`Invalid dimensions: ${width}×${height}`);
+      }
+      const body = new Uint8Array(buffer, 0x600);
+      const totalPixels = width * height;
+      const pixels = new Uint8Array(totalPixels);
+      let pi = 0, bi = 0;
+      while (pi < totalPixels && bi + 1 < body.length) {
+        const value = body[bi];
+        const count = body[bi + 1];
+        if (count === 0) break;
+        const end = Math.min(pi + count, totalPixels);
+        pixels.fill(value, pi, end);
+        pi = end;
+        bi += 2;
+      }
+      if (pi < totalPixels) {
+        throw new Error(`RLE decode: got ${pi}/${totalPixels} pixels. File may be corrupted or use an unsupported format.`);
+      }
+      console.log(`Parsed DAT: ${width}×${height}, ${bi} RLE bytes → ${pi} pixels` + (compressed ? ' (LZSS)' : ''));
+      return { width, height, data: pixels, compressed };
+    }
+
+    function datToCanvas(raster) {
+      const { width, height, data } = raster;
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(width, height);
+      const d = imageData.data;
+      for (let y = 0; y < height; y++) {
+        const srcOff = y * width;
+        const dstOff = (height - 1 - y) * width;
+        for (let x = 0; x < width; x++) {
+          const rgb = STD_PALETTE[data[srcOff + x]];
+          const di = (dstOff + x) * 4;
+          d[di]     = (rgb >> 16) & 0xff;
+          d[di + 1] = (rgb >>  8) & 0xff;
+          d[di + 2] =  rgb        & 0xff;
+          d[di + 3] = 255;
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+      return canvas;
+    }
+
+    // =========================================================================
+    // UI state
+    // =========================================================================
+    const viewport = document.getElementById('viewport');
+    const container = document.getElementById('image-container');
+    const img = document.getElementById('img');
+    const selectionEl = document.getElementById('selection');
+    const coordsDisplay = document.getElementById('coords');
+    const dimsDisplay = document.getElementById('dims');
+    const hoverInfo = document.getElementById('hover-info');
+    const iroLabel = document.getElementById('iro-label');
+    const iroSwatch = document.getElementById('iro-swatch');
+    const iroText = document.getElementById('iro-text');
+    const iroX = document.getElementById('iro-x');
+    const iroY = document.getElementById('iro-y');
+    const filenameDisplay = document.getElementById('filename');
+    const helpBtn = document.getElementById('help-btn');
+    const helpPanel = document.getElementById('help-panel');
+    const fileInput = document.getElementById('file-input');
+
+    let imgW = 0, imgH = 0;
+    let datRaster = null;
+    let currentFilename = '';
+
+    // Transform state
+    let zoom = 1, panX = 0, panY = 0;
+    let fitZoom = 1;
+
+    // Selection state
+    let state = 'idle'; // 'idle' | 'selecting' | 'selected'
+    let startX = 0, startY = 0; // image-pixel space
+
+    // ---- Iro color display mode ----
+    // 'swatch' = colored square next to text
+    // 'bg'     = hover-info background becomes the color, text flips for contrast
+    let iroDisplayMode = 'bg'; // <-- edit this, or use setIroDisplay('bg') in console
+
+    // ---- Pixelated threshold ----
+    // Below this zoom level, use bilinear interpolation to avoid moiré.
+    // Above it, use nearest-neighbor for crisp pixel boundaries.
+    // 2 = each image pixel maps to ≥2×2 screen pixels.
+    const PIXELATED_THRESHOLD = 2; // <-- tweak to taste
+
+    // =========================================================================
+    // Transform helpers
+    // =========================================================================
+    let animTimer = null;
+
+    function applyTransform() {
+      container.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+      if (selectionEl.style.display !== 'none') {
+        selectionEl.style.borderWidth = Math.max(0.5, 2 / zoom) + 'px';
+      }
+      updateRenderMode();
+    }
+
+    /** Animate a discrete zoom/pan command (fit, 1:1, zoom-to-box) */
+    function animateTransform() {
+      container.classList.add('animating');
+      applyTransform();
+      clearTimeout(animTimer);
+      animTimer = setTimeout(() => container.classList.remove('animating'), 300);
+    }
+
+    /** Cancel animation immediately (for wheel events during transition) */
+    function cancelAnimation() {
+      clearTimeout(animTimer);
+      container.classList.remove('animating');
+    }
+
+    function viewportSize() {
+      return { vw: viewport.clientWidth, vh: viewport.clientHeight };
+    }
+
+    function fitToView(animate) {
+      const { vw, vh } = viewportSize();
+      fitZoom = Math.min(vw / imgW, vh / imgH);
+      zoom = fitZoom;
+      panX = (vw - imgW * zoom) / 2;
+      panY = (vh - imgH * zoom) / 2;
+      animate ? animateTransform() : applyTransform();
+    }
+
+    function screenToImg(clientX, clientY) {
+      const rect = viewport.getBoundingClientRect();
+      const sx = clientX - rect.left;
+      const sy = clientY - rect.top;
+      return {
+        x: Math.max(0, Math.min((sx - panX) / zoom, imgW)),
+        y: Math.max(0, Math.min((sy - panY) / zoom, imgH))
+      };
+    }
+
+    function isOnImage(clientX, clientY) {
+      const rect = viewport.getBoundingClientRect();
+      const sx = clientX - rect.left;
+      const sy = clientY - rect.top;
+      return sx >= panX && sx <= panX + imgW * zoom &&
+             sy >= panY && sy <= panY + imgH * zoom;
+    }
+
+    function updateDimsDisplay() {
+      const prefix = datRaster ? 'DAT ' : '';
+      const suffix = datRaster?.compressed ? ' LZSS' : '';
+      const pct = (zoom * 100).toFixed(zoom < 1 ? 1 : 0);
+      dimsDisplay.textContent = `${prefix}${imgW}×${imgH}${suffix}  ${pct}%`;
+    }
+
+    /** Auto-toggle image-rendering based on zoom level */
+    function updateRenderMode() {
+      if (!datRaster) return;
+      if (zoom >= PIXELATED_THRESHOLD) {
+        img.classList.add('pixelated');
+      } else {
+        img.classList.remove('pixelated');
+      }
+    }
+
+    // =========================================================================
+    // Iro color display
+    // =========================================================================
+
+    /** Set display mode: 'swatch' or 'bg'. Callable from console. */
+    window.setIroDisplay = function(mode) {
+      if (mode !== 'swatch' && mode !== 'bg') {
+        console.log("Usage: setIroDisplay('swatch') or setIroDisplay('bg')");
+        return;
+      }
+      iroDisplayMode = mode;
+      clearIroDisplay();
+      console.log(`Iro display mode: ${mode}`);
+    };
+
+    function clearIroDisplay() {
+      // iroText.textContent = '';
+      // iroX.textContent = '';
+      // iroY.textContent = '';
+      // iroSwatch.style.display = 'none';
+      // iroLabel.style.backgroundColor = '';
+      // iroLabel.style.color = '#ccc';
+      // iroLabel.style.border = '';
+      hoverInfo.style.opacity = '0';
+
+    }
+
+    function showIroDisplay(iro, rgb, px, datY) {
+      const r = (rgb >> 16) & 0xff;
+      const g = (rgb >>  8) & 0xff;
+      const b =  rgb        & 0xff;
+      const cssColor = `rgb(${r},${g},${b})`;
+
+      iroText.textContent = `${iro}`;
+      iroX.textContent = `x=${px}`;
+      iroY.textContent = `y=${datY}`;
+      hoverInfo.style.opacity = '1';
+
+      if (iroDisplayMode === 'bg') {
+        iroSwatch.style.display = 'none';
+        iroLabel.style.backgroundColor = cssColor;
+        const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        iroLabel.style.color = lum > 0.45 ? '#000' : '#fff';
+        iroLabel.style.border = '1px solid #555';
+      } else {
+        iroLabel.style.backgroundColor = '';
+        iroLabel.style.color = '#ccc';
+        iroSwatch.style.display = 'inline-block';
+        iroSwatch.style.backgroundColor = cssColor;
+      }
+    }
+
+    // =========================================================================
+    // Zoom & pan
+    // =========================================================================
+    viewport.addEventListener('wheel', e => {
+      if (!imgW) return;
+      e.preventDefault();
+
+      cancelAnimation();
+
+      const rect = viewport.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      if (e.ctrlKey || e.metaKey) {
+        // Pinch-to-zoom or Ctrl+wheel
+        const factor = Math.pow(0.99, e.deltaY);
+        const newZoom = Math.max(fitZoom * 0.25, Math.min(80, zoom * factor));
+        panX = mx - (mx - panX) * (newZoom / zoom);
+        panY = my - (my - panY) * (newZoom / zoom);
+        zoom = newZoom;
+      } else {
+        // Two-finger scroll → pan
+        panX -= e.deltaX;
+        panY -= e.deltaY;
+      }
+      applyTransform();
+      updateDimsDisplay();
+    }, { passive: false });
+
+    // =========================================================================
+    // File loading
+    // =========================================================================
+    function isDatFile(file) {
+      return file.name.toLowerCase().endsWith('.dat');
+    }
+
+    function loadFile(file) {
+      currentFilename = file.name;
+      filenameDisplay.textContent = file.name;
+      filenameDisplay.title = file.name; // tooltip for long names
+      if (isDatFile(file)) {
+        loadDat(file);
+      } else if (file.type.startsWith('image/') || /\.(png|jpe?g|gif|bmp|webp)$/i.test(file.name)) {
+        loadImage(file);
+      } else {
+        alert('Unsupported file type: ' + file.name);
+      }
+    }
+
+    function onImageReady() {
+      imgW = img.naturalWidth;
+      imgH = img.naturalHeight;
+      viewport.classList.remove('empty');
+      container.style.display = 'block';
+      fitToView(false);
+      updateDimsDisplay();
+      coordsDisplay.textContent = 'Click to start selection';
+      clearIroDisplay();
+      resetSelection();
+    }
+
+    function loadImage(file) {
+      datRaster = null;
+      img.classList.remove('pixelated');
+      const url = URL.createObjectURL(file);
+      img.onload = onImageReady;
+      img.src = url;
+    }
+
+    function loadDat(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const raster = parseDat(reader.result);
+          datRaster = raster;
+          const canvas = datToCanvas(raster);
+          // Don't set pixelated here — updateRenderMode() handles it based on zoom
+          img.classList.remove('pixelated');
+          img.onload = onImageReady;
+          img.src = canvas.toDataURL('image/png');
+        } catch (err) {
+          alert('DAT parse error: ' + err.message);
+          console.error(err);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    // =========================================================================
+    // Drag-and-drop + click-to-browse
+    // =========================================================================
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+      document.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+    });
+    document.addEventListener('drop', e => {
+      const file = e.dataTransfer.files[0];
+      if (file) loadFile(file);
+    });
+    viewport.addEventListener('click', e => {
+      if (viewport.classList.contains('empty')) fileInput.click();
+    });
+    fileInput.addEventListener('change', e => {
+      if (e.target.files[0]) loadFile(e.target.files[0]);
+      e.target.value = '';
+    });
+
+    // =========================================================================
+    // Help panel
+    // =========================================================================
+    helpBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      helpPanel.classList.toggle('visible');
+    });
+    document.addEventListener('click', e => {
+      if (!helpPanel.contains(e.target) && e.target !== helpBtn) {
+        helpPanel.classList.remove('visible');
+      }
+    });
+
+    // =========================================================================
+    // Coords click-to-copy
+    // =========================================================================
+    coordsDisplay.addEventListener('click', () => {
+      const text = coordsDisplay.textContent;
+      if (text.startsWith('[')) {
+        navigator.clipboard.writeText(text).then(() => {
+          coordsDisplay.classList.remove('copied');
+          void coordsDisplay.offsetWidth;
+          coordsDisplay.classList.add('copied');
+        });
+      }
+    });
+
+    // =========================================================================
+    // Selection logic (all coords in image-pixel space)
+    // =========================================================================
+    function resetSelection() {
+      state = 'idle';
+      selectionEl.style.display = 'none';
+    }
+
+    function updateSelectionBox(x1, y1, x2, y2) {
+      selectionEl.style.left   = Math.min(x1, x2) + 'px';
+      selectionEl.style.top    = Math.min(y1, y2) + 'px';
+      selectionEl.style.width  = Math.abs(x2 - x1) + 'px';
+      selectionEl.style.height = Math.abs(y2 - y1) + 'px';
+      selectionEl.style.borderWidth = Math.max(0.5, 2 / zoom) + 'px';
+    }
+
+    function getSelectionBounds() {
+      return {
+        l: parseFloat(selectionEl.style.left),
+        t: parseFloat(selectionEl.style.top),
+        w: parseFloat(selectionEl.style.width),
+        h: parseFloat(selectionEl.style.height),
+      };
+    }
+
+    function beginSelection(pos) {
+      startX = pos.x;
+      startY = pos.y;
+      updateSelectionBox(startX, startY, startX, startY);
+      selectionEl.style.display = 'block';
+      state = 'selecting';
+      coordsDisplay.textContent = 'Click to finish selection';
+    }
+
+    function finalizeSelection(endX, endY) {
+      const ix1 = Math.round(Math.min(startX, endX));
+      const iy1 = Math.round(Math.min(startY, endY));
+      const ix2 = Math.round(Math.max(startX, endX));
+      const iy2 = Math.round(Math.max(startY, endY));
+      const w = ix2 - ix1;
+      const h = iy2 - iy1;
+      const x = ix1;
+      const y = imgH - iy2; // bottom-left origin
+
+      if (w > 2 && h > 2) {
+        const coordStr = `[${x} ${y} ${w} ${h}]`;
+        coordsDisplay.textContent = coordStr;
+        navigator.clipboard.writeText(coordStr).then(() => {
+          coordsDisplay.classList.remove('copied');
+          void coordsDisplay.offsetWidth;
+          coordsDisplay.classList.add('copied');
+        });
+        state = 'selected';
+      } else {
+        resetSelection();
+        coordsDisplay.textContent = 'Click to start selection';
+      }
+    }
+
+    function zoomToSelection() {
+      if (state !== 'selected') return;
+      const { l, t, w, h } = getSelectionBounds();
+      const { vw, vh } = viewportSize();
+      const pad = 0.8; // use 80% of viewport
+      zoom = Math.min(vw * pad / w, vh * pad / h);
+      panX = vw / 2 - (l + w / 2) * zoom;
+      panY = vh / 2 - (t + h / 2) * zoom;
+      animateTransform();
+      updateDimsDisplay();
+    }
+
+    // Click on image for selection
+    img.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const pos = screenToImg(e.clientX, e.clientY);
+
+      if (state === 'idle') {
+        beginSelection(pos);
+      } else if (state === 'selecting') {
+        finalizeSelection(pos.x, pos.y);
+      } else if (state === 'selected') {
+        // Always allow starting a new selection, even from inside the box
+        beginSelection(pos);
+      }
+    });
+
+    // Mousemove for selection preview + hover info
+    viewport.addEventListener('mousemove', e => {
+      if (!imgW) return;
+      const pos = screenToImg(e.clientX, e.clientY);
+
+      if (state === 'selecting') {
+        updateSelectionBox(startX, startY, pos.x, pos.y);
+      }
+
+      if (datRaster && isOnImage(e.clientX, e.clientY)) {
+        const px = Math.floor(pos.x);
+        const py = Math.floor(pos.y);
+        const datY = imgH - 1 - py;
+        if (px >= 0 && px < datRaster.width && datY >= 0 && datY < datRaster.height) {
+          const iro = datRaster.data[datY * datRaster.width + px];
+          showIroDisplay(iro, STD_PALETTE[iro], px, datY);
+        } else {
+          clearIroDisplay();
+        }
+      } else {
+        clearIroDisplay();
+      }
+    });
+
+    viewport.addEventListener('mouseleave', () => clearIroDisplay());
+
+    // =========================================================================
+    // Keyboard shortcuts
+    // =========================================================================
+    document.addEventListener('keydown', e => {
+      // Don't capture if user is in an input
+      if (e.target.tagName === 'INPUT') return;
+      if (!imgW) return;
+
+      if (e.key === 'Escape') {
+        resetSelection();
+        coordsDisplay.textContent = 'Click to start selection';
+      } else if (e.key === '0' || e.key === 'f') {
+        fitToView(true);
+        updateDimsDisplay();
+      } else if (e.key === '1') {
+        // 1:1, centered on current viewport center
+        const { vw, vh } = viewportSize();
+        const cx = (vw / 2 - panX) / zoom; // image-space center
+        const cy = (vh / 2 - panY) / zoom;
+        zoom = 1;
+        panX = vw / 2 - cx * zoom;
+        panY = vh / 2 - cy * zoom;
+        animateTransform();
+        updateDimsDisplay();
+      } else if (e.key === 'z' || e.key === 'Z') {
+        zoomToSelection();
+      }
+    });
+
+    // =========================================================================
+    // Resize handler
+    // =========================================================================
+    window.addEventListener('resize', () => {
+      if (!imgW) return;
+      fitToView(false);
+      updateDimsDisplay();
+      resetSelection();
+      coordsDisplay.textContent = 'Click to start selection';
+    });
+  </script>
+</body>
+</html>

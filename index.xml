@@ -6,11 +6,35 @@
       <description>Last 10 notes on Knitting Bench Notes</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Image Crop Selector</title>
+    <link>https://hhhh/tools/image-crop-selector</link>
+    <guid>https://hhhh/tools/image-crop-selector</guid>
+    <description><![CDATA[ Just a silly tool for selecting bounding boxes in image files :) . ]]></description>
+    <pubDate>Tue, 21 Apr 2026 11:38:11 GMT</pubDate>
+  </item><item>
+    <title>Things to Check Before Knitting</title>
+    <link>https://hhhh/mach2x/things-to-check-before-knitting</link>
+    <guid>https://hhhh/mach2x/things-to-check-before-knitting</guid>
+    <description><![CDATA[ Option lines These option lines are particularly important. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 11:29:41 GMT</pubDate>
+  </item><item>
+    <title>Things to Check Before Knitting.sync-conflict-20260421-203304-AADPDVF</title>
+    <link>https://hhhh/mach2x/things-to-check-before-knitting.sync-conflict-20260421-203304-aadpdvf</link>
+    <guid>https://hhhh/mach2x/things-to-check-before-knitting.sync-conflict-20260421-203304-aadpdvf</guid>
+    <description><![CDATA[ Option lines These option lines are particularly important. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 11:25:03 GMT</pubDate>
+  </item><item>
+    <title>Things to Check Before Knitting.sync-conflict-20260421-203307-AADPDVF</title>
+    <link>https://hhhh/mach2x/things-to-check-before-knitting.sync-conflict-20260421-203307-aadpdvf</link>
+    <guid>https://hhhh/mach2x/things-to-check-before-knitting.sync-conflict-20260421-203307-aadpdvf</guid>
+    <description><![CDATA[ Option lines These option lines are particularly important. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 11:25:03 GMT</pubDate>
+  </item><item>
     <title>Check Area Parser</title>
     <link>https://hhhh/tools/check-area-parser</link>
     <guid>https://hhhh/tools/check-area-parser</guid>
     <description><![CDATA[ If the embed does not work, try this direct link (fullscreen). ]]></description>
-    <pubDate>Tue, 21 Apr 2026 11:01:23 GMT</pubDate>
+    <pubDate>Tue, 21 Apr 2026 11:23:40 GMT</pubDate>
   </item><item>
     <title>Downloading the Website</title>
     <link>https://hhhh/downloading-the-website</link>
@@ -41,30 +65,6 @@
     <guid>https://hhhh/mach2x/x-bed</guid>
     <description><![CDATA[ “X-bed” refers to a four needle bed flat knitting machine configuration. ”V-bed” refers to a two needle bed configuration. ]]></description>
     <pubDate>Tue, 21 Apr 2026 07:24:50 GMT</pubDate>
-  </item><item>
-    <title>Package Pattern Gather Up</title>
-    <link>https://hhhh/mach2x/package-pattern-gather-up</link>
-    <guid>https://hhhh/mach2x/package-pattern-gather-up</guid>
-    <description><![CDATA[ This function is used to retrieve package base patterns from Shima Seiki’s database. ]]></description>
-    <pubDate>Tue, 21 Apr 2026 07:24:30 GMT</pubDate>
-  </item><item>
-    <title>About</title>
-    <link>https://hhhh/about</link>
-    <guid>https://hhhh/about</guid>
-    <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
-    <pubDate>Tue, 21 Apr 2026 06:22:56 GMT</pubDate>
-  </item><item>
-    <title>Automatic Software</title>
-    <link>https://hhhh/mach2x/automatic-software</link>
-    <guid>https://hhhh/mach2x/automatic-software</guid>
-    <description><![CDATA[ If I remember correctly, Shima Seiki calls it automatic software. The SUTD researchers call this New File Format. ]]></description>
-    <pubDate>Tue, 21 Apr 2026 06:22:12 GMT</pubDate>
-  </item><item>
-    <title>MACH2X for Shima Seiki Shaping Machine Users</title>
-    <link>https://hhhh/mach2x/</link>
-    <guid>https://hhhh/mach2x/</guid>
-    <description><![CDATA[ These are (informal) notes about the Shima Seiki MACH2X M173X15L knitting machine (15 gauge, large hook needles, 1.7m wide needle bed). ]]></description>
-    <pubDate>Tue, 21 Apr 2026 06:16:37 GMT</pubDate>
   </item>
     </channel>
   </rss>

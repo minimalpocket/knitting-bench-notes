@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Area Parser</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a1a1a;
+      color: #ddd;
+      font-family: system-ui, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #header {
+      height: 42px;
+      background: #222;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 10px;
+      border-bottom: 1px solid #333;
+      flex-shrink: 0;
+      font-size: 13px;
+    }
+    #header .title { color: #999; font-weight: 600; letter-spacing: 0.02em; }
+    .header-sep { width: 1px; height: 20px; background: #333; flex-shrink: 0; }
+    #header-status { color: #777; font-size: 12px; }
+    .header-spacer { flex: 1; }
+    .hdr-btn {
+      background: none; border: 1px solid #444; color: #999;
+      font-size: 12px; padding: 3px 10px; border-radius: 4px; cursor: pointer; white-space: nowrap;
+    }
+    .hdr-btn:hover { border-color: #666; color: #ccc; }
+    #clear-btn:hover { border-color: #f66; color: #f66; }
+    .fmt-btn {
+      background: #2a2a2a; border: 1px solid #444; color: #aaa;
+      font-size: 12px; padding: 3px 10px; border-radius: 4px; cursor: pointer;
+      font-family: 'SF Mono', 'Consolas', monospace;
+    }
+    .fmt-btn:hover { border-color: #666; color: #ccc; }
+    .fmt-btn.active { border-color: #0af; color: #0af; background: #0af1; }
+    #copy-btn {
+      background: #0af2; border: 1px solid #0af5; color: #0af;
+      font-size: 12px; padding: 3px 12px; border-radius: 4px; cursor: pointer;
+    }
+    #copy-btn:hover { background: #0af3; }
+    #copy-btn.copied { color: #0f0; border-color: #0f05; }
+    .header-actions { display: none; align-items: center; gap: 8px; }
+    .header-actions.visible { display: flex; }
+
+    #drop-zone {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      border: 3px dashed #444; margin: 20px; border-radius: 12px;
+      cursor: pointer; color: #555; font-size: 20px;
+      transition: border-color 0.15s, color 0.15s;
+      flex-direction: column; gap: 8px;
+    }
+    #drop-zone.dragover { border-color: #0af; color: #0af; }
+    #drop-zone .sub { font-size: 13px; }
+    #drop-zone.hidden { display: none; }
+
+    #main { flex: 1; display: none; overflow: hidden; }
+    #main.visible { display: flex; }
+
+    #results-panel { flex: 1; overflow-y: auto; padding: 12px 16px; min-width: 0; }
+    .file-group { margin-bottom: 20px; }
+    .file-header {
+      font-size: 13px; color: #888; padding: 4px 0 6px; border-bottom: 1px solid #333;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 8px; position: relative;
+    }
+    .file-header .thumb {
+      width: 24px; height: 24px; object-fit: contain; border-radius: 3px;
+      border: 1px solid #444; cursor: pointer; flex-shrink: 0; background: #333;
+    }
+    .file-header .thumb:hover { border-color: #888; }
+    .file-header .fname { color: #aaa; font-weight: 600; }
+    .file-header .opline-tag {
+      font-family: 'SF Mono', 'Consolas', monospace; font-size: 12px; color: #0af;
+      background: #0af1a; padding: 1px 6px; border-radius: 3px; border: 1px solid #0af44;
+    }
+    .file-header .entry-count { color: #888; margin-left: auto; font-size: 12px; }
+    .file-error { color: #f66; font-size: 13px; padding: 8px 0; }
+
+    .thumb-popup {
+      /*display: none;*/
+      opacity: 0;
+      position: absolute; z-index: 200; left: 0; top: 30px;
+      background: #222; border: 1px solid #555; border-radius: 6px; padding: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6); pointer-events: none;
+      transition: opacity 0.1s;
+    }
+    .thumb:hover + .thumb-popup { display: block; opacity: 1; }
+    .thumb-popup img { display: block; max-width: 320px; max-height: 400px; border-radius: 3px; }
+
+    table.results { border-collapse: collapse; font-size: 13px; width: 100%; max-width: 420px; }
+    table.results th {
+      text-align: left; color: #666; font-weight: 500; padding: 3px 8px;
+      border-bottom: 1px solid #333; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    table.results td { padding: 2px 8px; font-family: 'SF Mono', 'Consolas', monospace; font-size: 13px; }
+    table.results tr:hover { background: #ffffff08; }
+    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; border: 1px solid #555; vertical-align: middle; }
+    .col-iro { color: #ccc; text-align: right; width: 3em; }
+    .col-count { color: #ccc; text-align: right; }
+    .col-pct { color: #777; text-align: right; width: 5em; }
+
+    #output-panel {
+      width: 420px; flex-shrink: 0; border-left: 1px solid #333;
+      display: flex; flex-direction: column; background: #1e1e1e;
+    }
+    #output-preview {
+      flex: 1; overflow: auto; padding: 10px 14px;
+      font-family: 'SF Mono', 'Consolas', monospace; font-size: 12px;
+      line-height: 1.5; white-space: pre; color: #aaa; tab-size: 2;
+    }
+    #file-input { display: none; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <span class="title">Check Area Parser</span>
+    <div class="header-actions" id="header-actions">
+      <button class="hdr-btn" id="add-more-btn">+ Add</button>
+      <button class="hdr-btn" id="clear-btn">Clear</button>
+    </div>
+    <span id="header-status"></span>
+    <span class="header-spacer"></span>
+    <div class="header-actions" id="fmt-actions">
+      <button class="fmt-btn active" data-fmt="md">Markdown</button>
+      <button class="fmt-btn" data-fmt="edn">EDN</button>
+      <button class="fmt-btn" data-fmt="json">JSON</button>
+      <button id="copy-btn">Copy</button>
+    </div>
+  </div>
+  <div id="drop-zone">
+    Drop KnitPaint Check Area screenshots here
+    <span class="sub">(or click to browse — multiple files OK)</span>
+  </div>
+  <div id="main">
+    <div id="results-panel"></div>
+    <div id="output-panel"><div id="output-preview"></div></div>
+  </div>
+  <input type="file" id="file-input" accept="image/*" multiple>
+
+<script>
+// BEGIN_PARSER
+
+const STD_PALETTE = [
+  0x000000, 0xff0000, 0x00ff00, 0xffff00, 0x0000ff, 0xff00ff, 0x00ffff, 0xffffff,
+  0x4a8999, 0x6c2490, 0xb4b4d8, 0xff67bd, 0x906cb4, 0x999999, 0xcf90c0, 0x8080ff,
+  0x51ffde, 0x5291db, 0x007c91, 0xebeb24, 0xb276b2, 0xfcb46c, 0xfc9463, 0xfc6c48,
+  0xfcd8fc, 0xfcb4fc, 0xd890fc, 0x64c8c8, 0xa06600, 0xebaceb, 0x7373b2, 0x90d848,
+  0x73b273, 0x9d7f01, 0xebebac, 0xd8d848, 0xb4b46c, 0xff00a0, 0xd7c3e1, 0xacaceb,
+  0x7f007f, 0xd84890, 0x906cd8, 0xd8d8fc, 0xd8b4d8, 0xcaa7e1, 0xbc9a46, 0xae8df5,
+  0x9f7fff, 0x8060ff, 0xdc7675, 0xff9090, 0xc0ff90, 0xfcfcb4, 0xfcfc90, 0xd8fc48,
+  0xff90cf, 0x90ffc0, 0xb49090, 0xfdebc7, 0xa0ffff, 0x00ffff, 0x32e9e9, 0x32cae9,
+  0x35afed, 0x00d500, 0xd86cd8, 0xd86cb4, 0xc060b4, 0xa854b4, 0x9966ff, 0xffffff,
+  0x00a0a0, 0xb7bcbc, 0xc5aeb7, 0xe2c5b2, 0xc0ffcf, 0x90cfc0, 0x90d8fc, 0x90b4fc,
+  0x007099, 0x4a8999, 0x6da5b4, 0x90c0cf, 0x0066ff, 0x0099ff, 0x33adff, 0x66c1ff,
+  0x99d6ff, 0x857a03, 0xca2891, 0x78309c, 0x9048b4, 0xb46cd8, 0xff008f, 0x7d8fa5,
+  0xff66bb, 0xff99d2, 0x693f24, 0x7f0000, 0x81640c, 0xfaa3b9, 0xacebac, 0xfcd86c,
+  0xb2b273, 0x7f7f00, 0xb49048, 0xb46c6c, 0xd49595, 0xb4d8d8, 0x906c6c, 0xffbfbf,
+  0xc0cf90, 0xffcf90, 0x73b2b2, 0xc090cf, 0xa9e5e7, 0xd8d8b4, 0xb4d890, 0xbf6a69,
+  0x90d8fc, 0xffddad, 0xb27373, 0xd8b46c, 0x00007f, 0xaa0000, 0x009600, 0xd89d49,
+  0x9065fd, 0xfbfdfe, 0x9d5a6f, 0x81dfa5, 0xacacff, 0x379d7f, 0xbfdfbe, 0xddf37b,
+  0x3f6e11, 0xb9f7ab, 0xd7dbff, 0xefff67, 0xfdfb55, 0xdeffb9, 0x73ab7f, 0xfefb9d,
+  0x8dc7de, 0x2f31fb, 0xffaf7f, 0xfbfa7f, 0xedaffb, 0xfe6a7f, 0xf59d93, 0x0603f0,
+  0xedeafb, 0xeafefe, 0x3d9fbf, 0xad0ceb, 0xfaa75d, 0xfcdeef, 0xfd7dfc, 0xeff5f7,
+  0x8dc7de, 0x66008a, 0x7a6796, 0x7fffff, 0x797fbd, 0x5fbf3a, 0x7187bb, 0x9b7fdf,
+  0xeece3d, 0xfffcf8, 0xff2fcf, 0xa8bfb0, 0xdbbefe, 0x9f6f9e, 0xfffdfd, 0xf5ba5f,
+  0xf35fd9, 0xcdf2f3, 0xfedf93, 0xe02dff, 0x797fbd, 0xc8c8c8, 0x1fb537, 0x735baa,
+  0xe56f81, 0xbf77fd, 0xf6dbbe, 0xf38f7f, 0xde7e7f, 0xe092ff, 0xcc5f91, 0xf0f0f0,
+  0x649d4c, 0x4bff4b, 0xa1ba4b, 0x404040, 0x1aecce, 0xf7f767, 0x67fba9, 0xe06dff,
+  0x6464ff, 0xff647d, 0x3fe3d3, 0xf59664, 0xeff7f7, 0x97c76f, 0x96fff7, 0x14d3b4,
+  0x677fcf, 0xd7afad, 0xeef6e9, 0xb7f5fc, 0xeaf77f, 0xba73cd, 0xbd5aaf, 0x6cb281,
+  0x4e88f7, 0x265f64, 0x2fb7f5, 0x648951, 0x9ffd7d, 0xbfbca4, 0xf3e93f, 0x7f7fdf,
+  0xff7ef7, 0xaa7fcf, 0xbffaf9, 0xe62ffd, 0xebf7df, 0x577c7f, 0xfea54d, 0x0603f0,
+  0xedeafb, 0x4fc75f, 0xef8dfb, 0x6afbff, 0xb7ffdf, 0x62ff4f, 0xcf5bf0, 0xdd79a9,
+  0x6be745, 0x66008a, 0x7a6796, 0xb28dba, 0xf7ecbd, 0x5ab9fc, 0x4cf7b7, 0x9c5909,
+  0x9dbdf2, 0x960000, 0x00af00, 0x009600, 0xc80000, 0x6e0000, 0x646464, 0x007d00,
+];
+
+// KnitPaint Check Area dialog: fixed 8×16 bitmap font, packed as byte-per-row
+const GLYPH_TABLE = new Map();
+function G(bytes, ch) { GLYPH_TABLE.set(bytes.join(','), ch); }
+G([0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00], ' ');
+G([0x00,0x31,0x49,0x4a,0x4a,0x34,0x04,0x08,0x10,0x16,0x29,0x29,0x49,0x46,0x00,0x00], '%');
+G([0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x18,0x18,0x08,0x10,0x00], ',');
+G([0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x18,0x18,0x00,0x00], '.');
+G([0x00,0x18,0x24,0x42,0x42,0x42,0x42,0x42,0x42,0x42,0x42,0x42,0x24,0x18,0x00,0x00], '0');
+G([0x00,0x08,0x38,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x00,0x00], '1');
+G([0x00,0x18,0x24,0x42,0x42,0x02,0x04,0x04,0x08,0x10,0x10,0x20,0x40,0x7e,0x00,0x00], '2');
+G([0x00,0x18,0x24,0x42,0x42,0x02,0x04,0x18,0x04,0x02,0x42,0x42,0x24,0x18,0x00,0x00], '3');
+G([0x00,0x04,0x04,0x0c,0x0c,0x14,0x14,0x24,0x24,0x44,0x7e,0x04,0x04,0x04,0x00,0x00], '4');
+G([0x00,0x7e,0x40,0x40,0x40,0x58,0x64,0x42,0x02,0x02,0x02,0x42,0x24,0x18,0x00,0x00], '5');
+G([0x00,0x18,0x24,0x42,0x42,0x40,0x58,0x64,0x42,0x42,0x42,0x42,0x24,0x18,0x00,0x00], '6');
+G([0x00,0x7e,0x02,0x02,0x04,0x04,0x04,0x08,0x08,0x08,0x10,0x10,0x10,0x10,0x00,0x00], '7');
+G([0x00,0x18,0x24,0x42,0x42,0x42,0x24,0x18,0x24,0x42,0x42,0x42,0x24,0x18,0x00,0x00], '8');
+G([0x00,0x18,0x24,0x42,0x42,0x42,0x42,0x26,0x1a,0x02,0x42,0x42,0x24,0x18,0x00,0x00], '9');
+G([0x00,0x7c,0x42,0x41,0x41,0x41,0x41,0x41,0x41,0x41,0x41,0x41,0x42,0x7c,0x00,0x00], 'D');
+G([0x3e,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x3e,0x00], '[');
+G([0x3e,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x02,0x3e,0x00], ']');
+G([0x00,0x00,0x00,0x00,0x00,0x00,0x1c,0x22,0x41,0x41,0x41,0x41,0x22,0x1c,0x00,0x00], 'o');
+G([0x00,0x00,0x10,0x10,0x10,0x10,0x7c,0x10,0x10,0x10,0x10,0x10,0x10,0x0c,0x00,0x00], 't');
+
+// Table background luminance thresholds (66 ~ #424242, ±4)
+const BG_LO = 62, BG_HI = 70;
+
+// Luminance threshold for binarization.
+// Dialog text pixels are nominally 255 against background of 66.
+// After JPEG compression: observed spread (220..255) vs (50..85)
+// 200 sits comfortably in the gap.
+const BRIGHT_THRESHOLD = 200;
+
+/** RGBA ImageData → {width, height, data: Uint8Array} luminance raster */
+function imageToLuminance(imageData) {
+  const { width, height, data } = imageData;
+  const lum = new Uint8Array(width * height);
+  for (let i = 0; i < lum.length; i++) {
+    const j = i * 4;
+    lum[i] = Math.round(0.299 * data[j] + 0.587 * data[j+1] + 0.114 * data[j+2]);
+  }
+  return { width, height, data: lum };
+}
+
+/** Auto-detect the 0x42 table region and crop to content rows.
+ *  Returns {width, height, data: Uint8Array} or null. */
+function detectAndCrop(lum) {
+  const { width: w, height: h, data } = lum;
+  const isBg = v => v >= BG_LO && v <= BG_HI;
+  const getRow = y => data.subarray(y * w, (y + 1) * w);
+
+  // Find rows where >40% of pixels are bg
+  const tableRows = [];
+  for (let y = 0; y < h; y++) {
+    const row = getRow(y);
+    let n = 0;
+    for (let x = 0; x < w; x++) if (isBg(row[x])) n++;
+    if (n > w * 0.4) tableRows.push(y);
+  }
+  if (tableRows.length === 0) return null;
+
+  const y0 = tableRows[0], y1 = tableRows[tableRows.length - 1];
+
+  // Find column extent
+  const colCounts = new Uint32Array(w);
+  for (const y of tableRows) {
+    const row = getRow(y);
+    for (let x = 0; x < w; x++) if (isBg(row[x])) colCounts[x]++;
+  }
+  let x0 = w, x1 = 0;
+  const colThresh = tableRows.length * 0.2;
+  for (let x = 0; x < w; x++) {
+    if (colCounts[x] > colThresh) {
+      if (x < x0) x0 = x;
+      if (x > x1) x1 = x;
+    }
+  }
+  x1++;
+
+  // Filter to rows containing bg, refine horizontal bounds from last row
+  const contentRows = [];
+  for (let y = y0; y <= y1; y++) {
+    const row = getRow(y);
+    let hasBg = false;
+    for (let x = x0; x < x1; x++) { if (isBg(row[x])) { hasBg = true; break; } }
+    if (hasBg) contentRows.push(y);
+  }
+  if (contentRows.length === 0) return null;
+
+  const lastRow = getRow(contentRows[contentRows.length - 1]);
+  let cx0 = x1, cx1 = x0;
+  for (let x = x0; x < x1; x++) {
+    if (isBg(lastRow[x])) {
+      if (x < cx0) cx0 = x;
+      if (x > cx1) cx1 = x;
+    }
+  }
+  cx1++;
+
+  const cw = cx1 - cx0, ch = contentRows.length;
+  const cropped = new Uint8Array(cw * ch);
+  for (let i = 0; i < ch; i++) {
+    const srcRow = getRow(contentRows[i]);
+    cropped.set(srcRow.subarray(cx0, cx1), i * cw);
+  }
+  return { width: cw, height: ch, data: cropped };
+}
+
+/** Detect text column offset by finding the color swatch border.
+ *  Swatches have a grey border (~145 lum) at rows 2–13 of each 16px entry.
+ *  Text starts 6 columns after the swatch's right edge. */
+function detectTextOffset(cropped) {
+  const { width: cw, height: ch, data } = cropped;
+  const nEntries = Math.min(5, Math.floor(ch / 16));
+  const scanW = Math.min(20, cw);
+  const scores = new Float64Array(scanW);
+  for (let col = 0; col < scanW; col++) {
+    for (let e = 0; e < nEntries; e++) {
+      for (let r = 2; r < 14; r++) {
+        const v = data[(e * 16 + r) * cw + col];
+        if (v >= 120 && v <= 160) scores[col]++;
+      }
+    }
+  }
+  const threshold = nEntries * 4;
+  let rightEdge = 13; // fallback for pre-cropped images
+  for (let col = scanW - 1; col >= 0; col--) {
+    if (scores[col] >= threshold) { rightEdge = col; break; }
+  }
+  return rightEdge + 6;
+}
+
+/** Pack 8 pixels into a byte (MSB first), thresholding at BRIGHT_THRESHOLD. */
+function packByte(data, offset) {
+  let v = 0;
+  for (let b = 0; b < 8; b++) {
+    v = (v << 1) | (data[offset + b] > BRIGHT_THRESHOLD ? 1 : 0);
+  }
+  return v;
+}
+
+/** Parse a cropped luminance raster into [{iro, count}, ...] */
+function parseCropped(cropped) {
+  const { width: cw, height: ch, data } = cropped;
+  const GH = 16, GW = 8;
+  const offset = detectTextOffset(cropped);
+  const nEntries = Math.floor(ch / GH);
+  const nGlyphs = Math.floor((cw - offset) / GW);
+  const results = [];
+
+  for (let e = 0; e < nEntries; e++) {
+    let text = '';
+    for (let g = 0; g < nGlyphs; g++) {
+      const col = offset + g * GW;
+      if (col + GW > cw) break;
+      const packed = [];
+      for (let r = 0; r < GH; r++) {
+        packed.push(packByte(data, (e * GH + r) * cw + col));
+      }
+      text += GLYPH_TABLE.get(packed.join(',')) ?? '?';
+    }
+    const m = text.match(/\s*(\d+).*?\[\s*(\d+)\s+Dot\]/);
+    if (m) {
+      results.push({ iro: parseInt(m[1]), count: parseInt(m[2]) });
+    }
+  }
+  return results;
+}
+
+/** Extract opline tag from filename: "foo-R3.PNG" → "R3" */
+function extractOpline(filename) {
+  const m = filename.toUpperCase().match(/([RL]\d+)\./);
+  return m ? m[1] : null;
+}
+
+/** Top-level: ImageData + filename → parsed result object */
+function parseCheckArea(imageData, filename) {
+  const lum = imageToLuminance(imageData);
+  const cropped = detectAndCrop(lum);
+  if (!cropped) {
+    return { filename, opline: extractOpline(filename), error: 'No table detected (0x42 background not found)', entries: [] };
+  }
+  const entries = parseCropped(cropped);
+  if (entries.length === 0) {
+    return { filename, opline: extractOpline(filename), error: 'Table found but glyph recognition failed (check DPI scaling)', entries: [] };
+  }
+  return { filename, opline: extractOpline(filename), entries, error: null };
+}
+
+// END_PARSER
+
+// =========================================================================
+// UI
+// =========================================================================
+const dropZone = document.getElementById('drop-zone');
+const main = document.getElementById('main');
+const resultsPanel = document.getElementById('results-panel');
+const outputPreview = document.getElementById('output-preview');
+const headerStatus = document.getElementById('header-status');
+const headerActions = document.getElementById('header-actions');
+const fmtActions = document.getElementById('fmt-actions');
+const addMoreBtn = document.getElementById('add-more-btn');
+const clearBtn = document.getElementById('clear-btn');
+const copyBtn = document.getElementById('copy-btn');
+const fileInput = document.getElementById('file-input');
+
+let allResults = [];
+let currentFormat = 'md';
+
+function rgbCss(packed) {
+  return `rgb(${(packed>>16)&0xff},${(packed>>8)&0xff},${packed&0xff})`;
+}
+
+function loadAndParse(file) {
+  return new Promise((resolve) => {
+    const thumbUrl = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const result = parseCheckArea(imageData, file.name);
+      result.thumbUrl = thumbUrl;
+      resolve(result);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(thumbUrl);
+      resolve({ filename: file.name, opline: null, error: 'Failed to load image', entries: [], thumbUrl: null });
+    };
+    img.src = thumbUrl;
+  });
+}
+
+function renderResults() {
+  resultsPanel.innerHTML = '';
+  for (const result of allResults) {
+    const group = document.createElement('div');
+    group.className = 'file-group';
+    const header = document.createElement('div');
+    header.className = 'file-header';
+
+    if (result.thumbUrl) {
+      const thumb = document.createElement('img');
+      thumb.className = 'thumb';
+      thumb.src = result.thumbUrl;
+      header.appendChild(thumb);
+      const popup = document.createElement('div');
+      popup.className = 'thumb-popup';
+      popup.innerHTML = `<img src="${result.thumbUrl}">`;
+      header.appendChild(popup);
+    }
+
+    const fname = document.createElement('span');
+    fname.className = 'fname';
+    fname.textContent = result.filename;
+    header.appendChild(fname);
+    if (result.opline) {
+      const tag = document.createElement('span');
+      tag.className = 'opline-tag';
+      tag.textContent = result.opline;
+      header.appendChild(tag);
+    }
+    if (result.entries.length > 0) {
+      const count = document.createElement('span');
+      count.className = 'entry-count';
+      count.textContent = `${result.entries.length} entries`;
+      header.appendChild(count);
+    }
+    group.appendChild(header);
+
+    if (result.error) {
+      const err = document.createElement('div');
+      err.className = 'file-error';
+      err.textContent = result.error;
+      group.appendChild(err);
+    }
+    if (result.entries.length > 0) {
+      const total = result.entries.reduce((s, e) => s + e.count, 0);
+      const table = document.createElement('table');
+      table.className = 'results';
+      table.innerHTML = '<thead><tr><th></th><th>iro</th><th>count</th><th>%</th></tr></thead>';
+      const tbody = document.createElement('tbody');
+      for (const { iro, count } of result.entries) {
+        const pct = total > 0 ? (count / total * 100).toFixed(2) : '—';
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          `<td><span class="swatch" style="background:${rgbCss(STD_PALETTE[iro] ?? 0)}"></span></td>` +
+          `<td class="col-iro">${iro}</td>` +
+          `<td class="col-count">${count.toLocaleString()}</td>` +
+          `<td class="col-pct">${pct}%</td>`;
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      group.appendChild(table);
+    }
+    resultsPanel.appendChild(group);
+  }
+  renderOutput();
+  updateStatus();
+}
+
+// ---- Output formatting ----
+const pad = (s, w) => s + ' '.repeat(Math.max(0, w - s.length));
+const lpad = (s, w) => ' '.repeat(Math.max(0, w - s.length)) + s;
+
+function formatEdn(results) {
+  const parts = [];
+  for (const r of results) {
+    if (r.entries.length === 0) continue;
+    const label = r.opline ? `"${r.opline}"` : `"${r.filename}"`;
+    const pairs = r.entries.map(e => `${e.iro} ${e.count}`).join(', ');
+    parts.push(`[${label} {${pairs}}]`);
+  }
+  if (parts.length === 1) {
+    const r = results.find(r => r.entries.length > 0);
+    if (!r) return ';; no data';
+    return `{${r.entries.map(e => `${e.iro} ${e.count}`).join(', ')}}`;
+  }
+  return parts.join('\n');
+}
+
+function formatJson(results) {
+  const obj = {};
+  for (const r of results) {
+    if (r.entries.length === 0) continue;
+    const key = r.opline ?? r.filename;
+    const map = {};
+    for (const e of r.entries) map[e.iro] = e.count;
+    obj[key] = map;
+  }
+  const keys = Object.keys(obj);
+  return JSON.stringify(keys.length === 1 ? obj[keys[0]] : obj, null, 2);
+}
+
+function formatMarkdown(results) {
+  const sections = [];
+  for (const r of results) {
+    if (r.entries.length === 0) continue;
+    const heading = r.opline ? `### ${r.opline}` : `### ${r.filename}`;
+    const total = r.entries.reduce((s, e) => s + e.count, 0);
+    const col1H = r.opline ? `${r.opline}=` : 'iro';
+    const rows = r.entries.map(e => ({
+      iro: String(e.iro),
+      count: String(e.count),
+      pct: total > 0 ? (e.count / total * 100).toFixed(2) + '%' : '—',
+    }));
+    const w1 = Math.max(col1H.length, ...rows.map(r => r.iro.length));
+    const w2 = Math.max(5, ...rows.map(r => r.count.length));
+    const w3 = Math.max(1, ...rows.map(r => r.pct.length));
+    const w4 = 5;
+    const hdr = `| ${pad(col1H, w1)} | ${pad('count', w2)} | ${pad('%', w3)} | ${pad('Notes', w4)} |`;
+    const sep = `|${'-'.repeat(w1+2)}|${'-'.repeat(w2+2)}|${'-'.repeat(w3+2)}|${'-'.repeat(w4+2)}|`;
+    const dataRows = rows.map(r =>
+      `| ${lpad(r.iro, w1)} | ${lpad(r.count, w2)} | ${lpad(r.pct, w3)} | ${' '.repeat(w4)} |`
+    );
+    sections.push([heading, '', hdr, sep, ...dataRows].join('\n'));
+  }
+  return sections.join('\n\n');
+}
+
+function renderOutput() {
+  const fmt = { edn: formatEdn, json: formatJson, md: formatMarkdown };
+  outputPreview.textContent = (fmt[currentFormat] ?? formatEdn)(allResults);
+}
+
+function updateStatus() {
+  const n = allResults.length;
+  const entries = allResults.reduce((s, r) => s + r.entries.length, 0);
+  const errs = allResults.filter(r => r.error).length;
+  let parts = [`${n} file${n !== 1 ? 's' : ''}`, `${entries} entries`];
+  if (errs > 0) parts.push(`${errs} failed`);
+  headerStatus.textContent = parts.join(' · ');
+}
+
+// ---- File handling ----
+async function processFiles(files) {
+  const imgs = Array.from(files).filter(f =>
+    f.type.startsWith('image/') || /\.(png|jpe?g|gif|bmp|webp)$/i.test(f.name)
+  );
+  if (imgs.length === 0) return;
+  dropZone.classList.add('hidden');
+  main.classList.add('visible');
+  headerActions.classList.add('visible');
+  fmtActions.classList.add('visible');
+  headerStatus.textContent = `Processing ${imgs.length} file${imgs.length > 1 ? 's' : ''}...`;
+  for (const file of imgs) allResults.push(await loadAndParse(file));
+  allResults.sort((a, b) => {
+    if (!a.opline && !b.opline) return a.filename.localeCompare(b.filename);
+    if (!a.opline) return 1;
+    if (!b.opline) return -1;
+    const sa = a.opline[0], sb = b.opline[0];
+    if (sa !== sb) return sa === 'L' ? -1 : 1;
+    return parseInt(a.opline.slice(1)) - parseInt(b.opline.slice(1));
+  });
+  renderResults();
+}
+
+function clearAll() {
+  for (const r of allResults) if (r.thumbUrl) URL.revokeObjectURL(r.thumbUrl);
+  allResults = [];
+  resultsPanel.innerHTML = '';
+  outputPreview.textContent = '';
+  dropZone.classList.remove('hidden');
+  main.classList.remove('visible');
+  headerActions.classList.remove('visible');
+  fmtActions.classList.remove('visible');
+  headerStatus.textContent = '';
+}
+
+// ---- Events ----
+['dragenter','dragover','dragleave','drop'].forEach(e =>
+  document.addEventListener(e, ev => { ev.preventDefault(); ev.stopPropagation(); }));
+document.addEventListener('dragenter', () => dropZone.classList.add('dragover'));
+document.addEventListener('dragleave', e => {
+  if (!e.relatedTarget || e.relatedTarget === document.documentElement)
+    dropZone.classList.remove('dragover');
+});
+document.addEventListener('drop', e => {
+  dropZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) processFiles(e.dataTransfer.files);
+});
+dropZone.addEventListener('click', () => fileInput.click());
+addMoreBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => {
+  if (e.target.files.length) processFiles(e.target.files);
+  e.target.value = '';
+});
+clearBtn.addEventListener('click', clearAll);
+document.querySelectorAll('.fmt-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFormat = btn.dataset.fmt;
+    renderOutput();
+  });
+});
+copyBtn.addEventListener('click', () => {
+  const text = outputPreview.textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    copyBtn.textContent = 'Copied';
+    copyBtn.classList.add('copied');
+    setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 1200);
+  });
+});
+document.addEventListener('paste', async e => {
+  const items = e.clipboardData?.items;
+  if (!items) return;
+  const imgs = Array.from(items).filter(i => i.type.startsWith('image/'));
+  if (imgs.length === 0) return;
+  e.preventDefault();
+  const files = imgs.map(i => i.getAsFile()).filter(Boolean);
+  processFiles(files.map((f, i) => new File([f], `pasted-${Date.now()}-${i}.png`, { type: f.type })));
+});
+</script>
+</body>
+</html>

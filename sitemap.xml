@@ -1,15 +1,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
     <loc>https://hhhh/about</loc>
-    <lastmod>2026-04-14T04:19:27.389Z</lastmod>
+    <lastmod>2026-04-21T06:22:56.686Z</lastmod>
+  </url><url>
+    <loc>https://hhhh/downloading-the-website</loc>
+    <lastmod>2026-04-21T07:23:47.727Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/automatic-software</loc>
-    <lastmod>2026-04-17T01:45:19.385Z</lastmod>
+    <lastmod>2026-04-21T06:22:12.011Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/carriage-systems</loc>
-    <lastmod>2026-04-10T03:01:27.837Z</lastmod>
+    <lastmod>2026-04-17T09:55:40.624Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/comb</loc>
-    <lastmod>2026-04-15T03:26:06.340Z</lastmod>
+    <lastmod>2026-04-17T09:57:47.944Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</loc>
     <lastmod>2026-04-17T01:47:32.275Z</lastmod>
@@ -21,7 +24,7 @@
     <lastmod>2026-04-10T01:59:31.381Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/front-body-back-body</loc>
-    <lastmod>2026-04-14T04:28:56.623Z</lastmod>
+    <lastmod>2026-04-21T07:25:18.068Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/loop-length-group</loc>
     <lastmod>2026-04-10T03:02:26.455Z</lastmod>
@@ -32,23 +35,20 @@
     <loc>https://hhhh/mach2x/needle</loc>
     <lastmod>2026-04-16T03:11:29.300Z</lastmod>
   </url><url>
-    <loc>https://hhhh/mach2x/option-lines</loc>
-    <lastmod>2026-04-14T01:19:39.113Z</lastmod>
-  </url><url>
     <loc>https://hhhh/mach2x/package-pattern-gather-up</loc>
-    <lastmod>2026-04-17T02:58:16.517Z</lastmod>
+    <lastmod>2026-04-21T07:24:30.955Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/press-off</loc>
     <lastmod>2026-04-09T06:22:37.619Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/pulldown-device</loc>
-    <lastmod>2026-04-15T03:23:35.733Z</lastmod>
+    <lastmod>2026-04-21T07:25:41.515Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/ssd</loc>
     <lastmod>2026-04-10T15:24:03.572Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/starting-and-ending</loc>
-    <lastmod>2026-04-10T15:24:31.328Z</lastmod>
+    <lastmod>2026-04-17T09:54:59.521Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/stitch-adjustment-data</loc>
     <lastmod>2026-04-10T15:24:41.794Z</lastmod>
@@ -56,11 +56,14 @@
     <loc>https://hhhh/mach2x/takedown</loc>
     <lastmod>2026-04-10T03:03:22.155Z</lastmod>
   </url><url>
+    <loc>https://hhhh/mach2x/things-to-check-before-knitting</loc>
+    <lastmod>2026-04-21T05:56:17.325Z</lastmod>
+  </url><url>
     <loc>https://hhhh/mach2x/threading</loc>
     <lastmod>2026-04-10T01:52:21.626Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/x-bed</loc>
-    <lastmod>2026-04-13T03:18:07.300Z</lastmod>
+    <lastmod>2026-04-21T07:24:50.733Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/yarn-error</loc>
     <lastmod>2026-04-10T15:25:26.533Z</lastmod>
@@ -69,17 +72,20 @@
     <lastmod>2026-04-16T03:02:40.764Z</lastmod>
   </url><url>
     <loc>https://hhhh/mach2x/</loc>
-    <lastmod>2026-04-16T01:27:13.522Z</lastmod>
+    <lastmod>2026-04-21T06:16:37.401Z</lastmod>
   </url><url>
     <loc>https://hhhh/notes-to-selves</loc>
-    <lastmod>2026-04-10T16:22:03.383Z</lastmod>
+    <lastmod>2026-04-21T07:30:26.394Z</lastmod>
   </url><url>
     <loc>https://hhhh/thoughts-on-documentation</loc>
     <lastmod>2026-04-11T06:19:21.313Z</lastmod>
   </url><url>
-    <loc>https://hhhh/</loc>
-    <lastmod>2026-04-12T15:24:44.775Z</lastmod>
+    <loc>https://hhhh/tools/check-area-parser</loc>
+    <lastmod>2026-04-21T08:22:24.874Z</lastmod>
   </url><url>
-    <loc>https://hhhh/styling-test</loc>
-    <lastmod>2026-04-17T02:47:46.580Z</lastmod>
+    <loc>https://hhhh/tools/</loc>
+    <lastmod>2026-04-21T03:29:54.517Z</lastmod>
+  </url><url>
+    <loc>https://hhhh/</loc>
+    <lastmod>2026-04-21T07:29:02.079Z</lastmod>
   </url></urlset>

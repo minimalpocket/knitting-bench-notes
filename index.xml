@@ -6,65 +6,65 @@
       <description>Last 10 notes on Knitting Bench Notes</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Check Area Parser</title>
+    <link>https://hhhh/tools/check-area-parser</link>
+    <guid>https://hhhh/tools/check-area-parser</guid>
+    <description><![CDATA[ If the embed does not work, try this direct link (fullscreen). ]]></description>
+    <pubDate>Tue, 21 Apr 2026 08:22:24 GMT</pubDate>
+  </item><item>
+    <title>Notes to Selves</title>
+    <link>https://hhhh/notes-to-selves</link>
+    <guid>https://hhhh/notes-to-selves</guid>
+    <description><![CDATA[ Formatting Title case for page titles. Sentence case for all other headings. No empty line between heading and body text. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 07:30:26 GMT</pubDate>
+  </item><item>
+    <title>Home</title>
+    <link>https://hhhh/</link>
+    <guid>https://hhhh/</guid>
+    <description><![CDATA[ Hello world! :) This is a collection of textile notes and tools that might be useful to other people. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 07:29:02 GMT</pubDate>
+  </item><item>
+    <title>Pulldown Device</title>
+    <link>https://hhhh/mach2x/pulldown-device</link>
+    <guid>https://hhhh/mach2x/pulldown-device</guid>
+    <description><![CDATA[ The pulldown device (PDD) is a claw-like device that pulls on the knitted fabric to provide takedown force. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 07:25:41 GMT</pubDate>
+  </item><item>
+    <title>Front Body Back Body</title>
+    <link>https://hhhh/mach2x/front-body-back-body</link>
+    <guid>https://hhhh/mach2x/front-body-back-body</guid>
+    <description><![CDATA[ If you want more freedom to specify different knit structures on the front face and back face of the fabric, you can create 3 compressed patterns. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 07:25:18 GMT</pubDate>
+  </item><item>
+    <title>X-Bed</title>
+    <link>https://hhhh/mach2x/x-bed</link>
+    <guid>https://hhhh/mach2x/x-bed</guid>
+    <description><![CDATA[ “X-bed” refers to a four needle bed flat knitting machine configuration. ”V-bed” refers to a two needle bed configuration. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 07:24:50 GMT</pubDate>
+  </item><item>
     <title>Package Pattern Gather Up</title>
     <link>https://hhhh/mach2x/package-pattern-gather-up</link>
     <guid>https://hhhh/mach2x/package-pattern-gather-up</guid>
     <description><![CDATA[ This function is used to retrieve package base patterns from Shima Seiki’s database. ]]></description>
-    <pubDate>Fri, 17 Apr 2026 02:58:16 GMT</pubDate>
+    <pubDate>Tue, 21 Apr 2026 07:24:30 GMT</pubDate>
   </item><item>
-    <title>styling test</title>
-    <link>https://hhhh/styling-test</link>
-    <guid>https://hhhh/styling-test</guid>
-    <description><![CDATA[ Heading 1 Heading 2 Heading 3 Heading 4 Heading 5 Heading 6 bold italic bold-italic code highlight misplled wrods {振り仮名|fu|ri|ga|na} regular lists and increasingly nested ones also 1) numbered 2) lists blockquotes can be nested too wow awk &#039;BEGIN{s=1}{c+=length+1;if(c-p&gt;=15500){print s,NR;p=... ]]></description>
-    <pubDate>Fri, 17 Apr 2026 02:47:46 GMT</pubDate>
+    <title>Downloading the Website</title>
+    <link>https://hhhh/downloading-the-website</link>
+    <guid>https://hhhh/downloading-the-website</guid>
+    <description><![CDATA[ This website is hosted on Github Pages! You can download a ZIP archive of it by clicking here. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 07:23:47 GMT</pubDate>
   </item><item>
-    <title>Comparison Between MACH2X and Other Shima Seiki Machines</title>
-    <link>https://hhhh/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</link>
-    <guid>https://hhhh/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</guid>
-    <description><![CDATA[ Note that all these claims are based on my fairly limited experience with Shima Seiki knitting machines. ]]></description>
-    <pubDate>Fri, 17 Apr 2026 01:47:32 GMT</pubDate>
+    <title>About</title>
+    <link>https://hhhh/about</link>
+    <guid>https://hhhh/about</guid>
+    <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 06:22:56 GMT</pubDate>
   </item><item>
     <title>Automatic Software</title>
     <link>https://hhhh/mach2x/automatic-software</link>
     <guid>https://hhhh/mach2x/automatic-software</guid>
-    <description><![CDATA[ The SUTD researchers call this New File Format too. If I remember correctly, Shima Seiki calls it automatic software. ]]></description>
-    <pubDate>Fri, 17 Apr 2026 01:45:19 GMT</pubDate>
-  </item><item>
-    <title>Loop Routine</title>
-    <link>https://hhhh/mach2x/loop-routine</link>
-    <guid>https://hhhh/mach2x/loop-routine</guid>
-    <description><![CDATA[ Calibrates the Stitch Adjustment Data to match desired loop lengths before the knitting program is started (vs. ]]></description>
-    <pubDate>Thu, 16 Apr 2026 15:51:24 GMT</pubDate>
-  </item><item>
-    <title>Needle</title>
-    <link>https://hhhh/mach2x/needle</link>
-    <guid>https://hhhh/mach2x/needle</guid>
-    <description><![CDATA[ The MACH2X M173X15L has 15L needles. 15 gauge spacing (15 needles an inch). Large needle hook (similar to 12 gauge needle hook?). ]]></description>
-    <pubDate>Thu, 16 Apr 2026 03:11:29 GMT</pubDate>
-  </item><item>
-    <title>i-DSCS</title>
-    <link>https://hhhh/mach2x/i-dscs</link>
-    <guid>https://hhhh/mach2x/i-dscs</guid>
-    <description><![CDATA[ The i-DSCS and DSCS use the same option line settings for L9. ]]></description>
-    <pubDate>Thu, 16 Apr 2026 03:02:40 GMT</pubDate>
-  </item><item>
-    <title>DSCS</title>
-    <link>https://hhhh/mach2x/dscs</link>
-    <guid>https://hhhh/mach2x/dscs</guid>
-    <description><![CDATA[ Mechanism The DSCS encoder measures the actual length of yarn used and compares it with the theoretical length of yarn used. ]]></description>
-    <pubDate>Thu, 16 Apr 2026 01:43:03 GMT</pubDate>
-  </item><item>
-    <title>MACH2X for Shima Seiki Shaping Machine Users</title>
-    <link>https://hhhh/mach2x/</link>
-    <guid>https://hhhh/mach2x/</guid>
-    <description><![CDATA[ These are (informal) notes about the Shima Seiki MACH2X M173X15L knitting machine (15 gauge, large hook needles, 1.7m wide needle bed). ]]></description>
-    <pubDate>Thu, 16 Apr 2026 01:27:13 GMT</pubDate>
-  </item><item>
-    <title>Comb</title>
-    <link>https://hhhh/mach2x/comb</link>
-    <guid>https://hhhh/mach2x/comb</guid>
-    <description><![CDATA[ The comb force is specified in kg. The comb force is scaled to the width of the knitted fabric. ]]></description>
-    <pubDate>Wed, 15 Apr 2026 03:26:06 GMT</pubDate>
+    <description><![CDATA[ If I remember correctly, Shima Seiki calls it automatic software. The SUTD researchers call this New File Format. ]]></description>
+    <pubDate>Tue, 21 Apr 2026 06:22:12 GMT</pubDate>
   </item>
     </channel>
   </rss>

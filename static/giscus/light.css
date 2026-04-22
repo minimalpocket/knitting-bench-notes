@@ -66,7 +66,7 @@ main {
   --color-canvas-default: #fff;
   --color-canvas-overlay: #fff;
   --color-canvas-inset: #f6f8fa;
-  --color-canvas-subtle: #f6f8fa;
+  --color-canvas-subtle: #faf8f8; /* --light */
   --color-border-default: #d0d7de;
   --color-border-muted: hsl(210deg 18% 87% / 100%);
   --color-neutral-muted: rgb(175 184 193 / 20%);
@@ -95,5 +95,23 @@ main .pagination-loader-container {
 }
 
 main .gsc-loading-image {
-  background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+  background-image: unset;
+}
+
+
+/* OVERRIDES */
+
+@font-face {
+  font-family: "Playpen Sans";
+  src: url('../fonts/PlaypenSans-wght.woff2') format('woff2');
+}
+
+main {
+  font-family: "Playpen Sans", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  /* --color-canvas-default: transparent; */
+  /* --color-canvas-subtle: transparent; */
+}
+
+main .gsc-reactions-count {
+  display: none;
 }

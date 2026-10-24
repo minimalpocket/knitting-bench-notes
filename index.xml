@@ -9,8 +9,14 @@
     <title>About</title>
     <link>https://minimalpocket.github.io/knitting-bench-notes/about</link>
     <guid>https://minimalpocket.github.io/knitting-bench-notes/about</guid>
-    <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
-    <pubDate>Fri, 23 Oct 2026 16:35:18 GMT</pubDate>
+    <description><![CDATA[ PZ: These are notes based on personal experience with a Shima Seiki MACH2XS153-15L and MACH2X M173X15L, and passing experience with shaping machines (SVR123SP, SES122S, SSG122SC, SCG122SN), a Mini machine (SWG091N2), and a Kniterate. ]]></description>
+    <pubDate>Sat, 24 Oct 2026 08:42:51 GMT</pubDate>
+  </item><item>
+    <title>X-Bed</title>
+    <link>https://minimalpocket.github.io/knitting-bench-notes/mach2x/x-bed</link>
+    <guid>https://minimalpocket.github.io/knitting-bench-notes/mach2x/x-bed</guid>
+    <description><![CDATA[ “X-bed” refers to a four needle bed flat knitting machine configuration. ”V-bed” refers to a two needle bed configuration. ]]></description>
+    <pubDate>Sat, 24 Oct 2026 08:41:25 GMT</pubDate>
   </item><item>
     <title>Comparison Between MACH2X and Other Shima Seiki Machines</title>
     <link>https://minimalpocket.github.io/knitting-bench-notes/mach2x/comparison-between-mach2x-and-other-shima-seiki-machines</link>
@@ -59,12 +65,6 @@
     <guid>https://minimalpocket.github.io/knitting-bench-notes/mach2x/pulldown-device</guid>
     <description><![CDATA[ The pulldown device (PDD) is a claw-like device that pulls on the knitted fabric to provide takedown force. ]]></description>
     <pubDate>Tue, 21 Apr 2026 07:25:41 GMT</pubDate>
-  </item><item>
-    <title>Front Body Back Body</title>
-    <link>https://minimalpocket.github.io/knitting-bench-notes/mach2x/front-body-back-body</link>
-    <guid>https://minimalpocket.github.io/knitting-bench-notes/mach2x/front-body-back-body</guid>
-    <description><![CDATA[ If you want more freedom to specify different knit structures on the front face and back face of the fabric, you can create 3 compressed patterns. ]]></description>
-    <pubDate>Tue, 21 Apr 2026 07:25:18 GMT</pubDate>
   </item>
     </channel>
   </rss>
